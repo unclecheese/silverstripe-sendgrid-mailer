@@ -1,0 +1,18 @@
+---
+Name: sendgrid-mailer
+After:
+  - '#emailconfig'
+only:
+  envvarset: 'SENDGRID_API_KEY'  
+---
+SilverStripe\Core\Injector\Injector:
+  SendGrid:
+    constructor:
+      apiKey: '`SENDGRID_API_KEY`'
+  UncleCheese\SendGridMailer\SendGridTransport:
+    constructor:
+      sendGrid: '%$SendGrid'
+  Swift_Mailer:
+    constructor:
+      - '%$UncleCheese\SendGridMailer\SendGridTransport'
+
