@@ -6,14 +6,14 @@ namespace UncleCheese\SendGridMailer;
 use SendGrid;
 use SendGrid\Mail\Mail;
 use SilverStripe\Core\Environment;
-use Swift_Events_EventListener;
-use Swift_Transport;
-use Swift_Events_SendEvent;
-use Swift_Events_EventDispatcher;
+use Swift_Attachment;
 use Swift_DependencyContainer;
 use Swift_DependencyException;
+use Swift_Events_EventDispatcher;
+use Swift_Events_EventListener;
+use Swift_Events_SendEvent;
 use Swift_Mime_Message;
-use Swift_Attachment;
+use Swift_Transport;
 
 class SendGridTransport implements Swift_Transport
 {
@@ -157,9 +157,7 @@ class SendGridTransport implements Swift_Transport
             return $count;
         }
 
-        $this->throwException(
-            new SendGridTransportException('Response error: '.$response->statusCode(), 0, $response)
-        );
+        $this->throwException(new SendGridTransportException($response->body(), $response->statusCode(), null, $response));
     }
 
     /**
