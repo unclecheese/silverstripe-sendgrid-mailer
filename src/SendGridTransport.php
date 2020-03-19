@@ -127,6 +127,13 @@ class SendGridTransport implements Swift_Transport
                 $count++;
             }
         }
+
+        if ($replyTo = $message->getReplyTo()) {
+            foreach ($replyTo as $address => $name) {
+                $email->setReplyTo($address, $name);
+            }
+        }
+
         $children = $message->getChildren();
         foreach ($children as $child) {
             if ($child instanceof Swift_Attachment) {
