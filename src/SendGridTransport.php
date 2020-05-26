@@ -114,6 +114,14 @@ class SendGridTransport implements Swift_Transport
             }
         }
 
+        if ($replyTo = $message->getReplyTo()) {
+            $emails = array_keys($replyTo);
+            $names = array_values($replyTo);
+            if (!empty($emails)) {
+                $email->setReplyTo($emails[0], $names[0] ?? null);
+            }
+        }
+
         if ($bcc = $message->getBcc()) {
             foreach ($bcc as $address => $name) {
                 $email->addBcc($address, $name);
