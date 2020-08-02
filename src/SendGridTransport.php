@@ -14,6 +14,7 @@ use Swift_Events_EventListener;
 use Swift_Events_SendEvent;
 use Swift_Mime_Message;
 use Swift_Transport;
+use Exception;
 
 class SendGridTransport implements Swift_Transport
 {
@@ -96,7 +97,16 @@ class SendGridTransport implements Swift_Transport
         $from = $message->getFrom();
         reset($from);
 
-        $email->setFrom(key($from), current($from));
+        if($from){
+            $email->setFrom(key($from), current($from));
+        }else{
+            // Get default from address
+            if (!$from = Environment::getEnv('SENDGRID_DEFAULT_FROM_EMAIL')) {
+                throw new Exception("Please set 'SENDGRID_DEFAULT_FROM_EMAIL' Environment variable");
+            }
+
+            $email->setFrom($from);
+        }
 
         $count = 0;
 
