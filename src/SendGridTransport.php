@@ -12,7 +12,6 @@ use Swift_DependencyException;
 use Swift_Events_EventDispatcher;
 use Swift_Events_EventListener;
 use Swift_Events_SendEvent;
-use Swift_Mime_Message;
 use Swift_Transport;
 
 class SendGridTransport implements Swift_Transport
@@ -82,7 +81,7 @@ class SendGridTransport implements Swift_Transport
     /**
      * {@inheritDoc}
      */
-    public function send(Swift_Mime_Message $message, &$failedRecipients = null)
+    public function send($message, &$failedRecipients = null)
     {
         if ($evt = $this->eventDispatcher->createSendEvent($this, $message)) {
             $this->eventDispatcher->dispatchEvent($evt, 'beforeSendPerformed');
