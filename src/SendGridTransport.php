@@ -14,9 +14,7 @@ use Swift_Events_EventListener;
 use Swift_Events_SendEvent;
 use Swift_Transport;
 use Swift_Mime_SimpleMessage;
-use Swift_Transport;
-use Swift_Mime_SimpleMessage;
-use Swift_Transport;
+
 
 class SendGridTransport implements Swift_Transport
 {
